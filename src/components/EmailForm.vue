@@ -9,7 +9,7 @@
         <div class='attachment-wrapper' v-if='hasAttachments'>
             <ul class='attachments'>
                 <template v-for='image in images' class='attachment'>
-                    <li class=''>
+                    <li class='item'>
                         <div class='image-wrapper'>
                             <img v-bind:src='image'></img>
                         </div>
