@@ -8,9 +8,9 @@
         <textarea class='message' rows='10' columns='50' placeholder='Message' @blur='checkIfValid()'></textarea>
         <div class='attachment-wrapper' v-if='hasAttachments'>
             <ul class='attachments'>
-                <template v-for='image in images' class='attachment'>
+                <template v-for='(image, index) in images' class='attachment'>
                     <li class='item'>
-                        <div class='image-wrapper'>
+                        <div class='image-wrapper' @click='removeImage(image)'>
                             <img v-bind:src='image'></img>
                         </div>
                     </li>
@@ -75,14 +75,15 @@ export default {
         return
       }
 
-      const file = files[0]
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        this.images.push(reader.result)
-      }
+      if (files.length > 0) {
+        for (let index = 0; index < files.length; index++) {
+          const reader = new FileReader()
+          reader.onloadend = () => {
+            this.images.push(reader.result)
+          }
 
-      if (file) {
-        reader.readAsDataURL(file)
+          reader.readAsDataURL(files[index])
+        }
       }
     },
 
@@ -98,6 +99,10 @@ export default {
       }
 
       this.submitButtonEnabled = result
+    },
+
+    removeImage (img) {
+      this.images = this.images.filter(e => e !== img)
     }
   }
 }
